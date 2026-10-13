@@ -1,0 +1,6 @@
+numpy
+matplotlib
+streamlit
+Pillow
+torch
+torchvision
