@@ -1,0 +1,22 @@
+# Downloaded dataset — large, and train.py re-downloads it automatically
+mnist_data/
+
+# Local-only helper script — not needed by other users/CI
+push_to_git.sh
+
+# Python cache / build artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# OS / editor junk
+.DS_Store
+.idea/
+.vscode/
+
+# Docker
+*.log
