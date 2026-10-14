@@ -1,0 +1,34 @@
+services:
+  # Single Streamlit app with built-in page navigation (sidebar) to
+  # switch between the CNN denoiser and the U-Net denoiser.
+  # No reverse proxy needed — Streamlit's multi-page mechanism handles
+  # the "routing" automatically via the pages/ folder.
+  app:
+    build: .
+    image: mnist-denoiser:latest
+    container_name: mnist-denoiser-app
+    command: streamlit run Home.py
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./model.pt:/app/model.pt
+      - ./model_unet.pt:/app/model_unet.pt
+      - ./mnist_data:/app/mnist_data
+
+  # One-off training job (CNN). Run with: docker compose run --rm train
+  train:
+    build: .
+    image: mnist-denoiser:latest
+    command: python train.py --epochs 15
+    volumes:
+      - ./model.pt:/app/model.pt
+      - ./mnist_data:/app/mnist_data
+
+  # One-off training job (U-Net). Run with: docker compose run --rm train-unet
+  train-unet:
+    build: .
+    image: mnist-denoiser:latest
+    command: python train_unet.py --epochs 15
+    volumes:
+      - ./model_unet.pt:/app/model_unet.pt
+      - ./mnist_data:/app/mnist_data
